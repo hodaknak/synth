@@ -28,7 +28,7 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < data.Length; i += channels) {
             phase += increment;
-            data[i] = gain * Waves.Sin(phase);
+            data[i] = gain * Waves.Saw(phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
