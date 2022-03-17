@@ -14,16 +14,27 @@ public class oscillator : MonoBehaviour
     float volume = 0.1f;
 
     float gain;
+    
 
-    void Update() {
-        if (Input.GetKey(KeyCode.Space)) {
+    void Update() 
+    {
+        
+        
+        if (Input.GetKey(KeyCode.A)) {
             gain = volume;
+            freq = 108.9f;
+        } else if (Input.GetKey(KeyCode.S)) {
+            gain = volume;
+            freq = 108.9f;
         } else {
             gain = 0f;
         }
+
+        
     }
 
     void OnAudioFilterRead(float[] data, int channels) {
+        //test
         increment = freq * 2f * Mathf.PI / samplingFreq;
 
         for (int i = 0; i < data.Length; i += channels) {
@@ -42,3 +53,4 @@ public class oscillator : MonoBehaviour
         //for harrison: loop through the data[] array, each value is the y value so just graph that
     }
 }
+
