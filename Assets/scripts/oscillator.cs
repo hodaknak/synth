@@ -14,8 +14,21 @@ public class oscillator : MonoBehaviour
     float volume = 0.1f;
 
     float gain;
-    
 
+    [SerializeField]
+    GameObject datapoint;
+
+    GameObject[] points;
+    
+    void Start() {
+
+        points = new GameObject[100];
+
+        for (var i = 0; i < 100; i++) {
+            Instantiate(datapoint);
+            points[i];
+        }
+    }
     void Update() 
     {
         
@@ -39,7 +52,7 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < data.Length; i += channels) {
             phase += increment;
-            data[i] = gain * Waves.Saw(phase);
+            data[i] = gain * Waves.Sin(phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
@@ -48,6 +61,12 @@ public class oscillator : MonoBehaviour
             if (phase > 2f * Mathf.PI) {
                 phase = 0;
             }
+        }
+        
+        //visualize
+        
+        for (var i = 0; i < 100; i++) {
+            points[i].position = new Vector2(i - 50, data[i]);
         }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
