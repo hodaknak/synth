@@ -64,7 +64,9 @@ public class oscillator : MonoBehaviour
             gain = 0f;
         }
 
-        
+        if(octave == 2) {
+            freq *= 2;
+        }
     }
 
     void OnAudioFilterRead(float[] data, int channels) {
