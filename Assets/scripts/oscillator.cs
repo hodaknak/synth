@@ -10,6 +10,8 @@ public class oscillator : MonoBehaviour
     float phase;
     float samplingFreq = 48000f;
 
+    public int octave;
+
     [SerializeField]
     float volume = 0.1f;
 
@@ -22,24 +24,43 @@ public class oscillator : MonoBehaviour
     
     void Start() {
 
-        points = new GameObject[100];
-
-        for (var i = 0; i < 100; i++) {
-            Instantiate(datapoint);
-            points[i];
-        }
+       
     }
     void Update() 
     {
-        
+        if(Input.GetKey(KeyCode.Space))
+        {
+            gain = volume;
+        } else {
+            gain = 0f;
+        }
         
         if (Input.GetKey(KeyCode.A)) {
             gain = volume;
-            freq = 108.9f;
+            freq = 110f;
         } else if (Input.GetKey(KeyCode.S)) {
             gain = volume;
-            freq = 108.9f;
-        } else {
+            freq = 123.5f;
+        } else if(Input.GetKey(KeyCode.D)) {
+            gain = volume;
+            freq = 130.8f;
+        } else if(Input.GetKey(KeyCode.F)) {
+            gain = volume;
+            freq = 146.8f;
+        }  else if(Input.GetKey(KeyCode.G)) {
+            gain = volume;
+            freq = 164.8f;
+        } else if(Input.GetKey(KeyCode.H)) {
+            gain = volume;
+            freq = 174.6f;
+        }  else if(Input.GetKey(KeyCode.J)) {
+            gain = volume;
+            freq = 196f;
+        }  else if(Input.GetKey(KeyCode.K)) {
+            gain = volume;
+            freq = 220f;
+        }
+        else {
             gain = 0f;
         }
 
@@ -65,9 +86,7 @@ public class oscillator : MonoBehaviour
         
         //visualize
         
-        for (var i = 0; i < 100; i++) {
-            points[i].position = new Vector2(i - 50, data[i]);
-        }
+       
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
     }
