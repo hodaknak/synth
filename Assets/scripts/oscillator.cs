@@ -21,10 +21,16 @@ public class oscillator : MonoBehaviour
     GameObject datapoint;
 
     GameObject[] points;
+
+    float[] globalData;
     
     void Start() {
+        points = new GameObject[100];
+        globalData = new float[100];
 
-       
+        for (int i = 0; i < 100; i++) {
+            points[i] = Instantiate(datapoint);
+        }
     }
     void Update() 
     {
@@ -36,6 +42,7 @@ public class oscillator : MonoBehaviour
         }
         
         if (Input.GetKey(KeyCode.A)) {
+            Debug.Log("test");
             gain = volume;
             freq = 110f;
         } else if (Input.GetKey(KeyCode.S)) {
@@ -64,6 +71,11 @@ public class oscillator : MonoBehaviour
             gain = 0f;
         }
 
+        //visualize
+
+        for (int i = 0; i < 100; i++) {
+            points[i].transform.position = new Vector2(i - 50, globalData[i] * 50);
+        }
         
     }
 
@@ -84,9 +96,9 @@ public class oscillator : MonoBehaviour
             }
         }
         
-        //visualize
-        
-       
+        for (int i = 0; i < 100; i++) {
+            globalData[i] = data[i];
+        }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
     }
