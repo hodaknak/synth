@@ -42,7 +42,6 @@ public class oscillator : MonoBehaviour
         }
         
         if (Input.GetKey(KeyCode.A)) {
-            Debug.Log("test");
             gain = volume;
             freq = 110f;
         } else if (Input.GetKey(KeyCode.S)) {
@@ -85,7 +84,7 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < data.Length; i += channels) {
             phase += increment;
-            data[i] = gain * Waves.Sin(phase);
+            data[i] = gain * Waves.Square(phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
@@ -96,8 +95,12 @@ public class oscillator : MonoBehaviour
             }
         }
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i += channels) {
             globalData[i] = data[i];
+
+            if (channels == 2) {
+                globalData[i + 1] = data[i];
+            }
         }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
