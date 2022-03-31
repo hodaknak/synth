@@ -27,11 +27,11 @@ public class oscillator : MonoBehaviour
     float[] globalData;
     
     void Start() {
-        points = new GameObject[100];
-        globalData = new float[100];
+        points = new GameObject[500];
+        globalData = new float[500];
         currentOctave = 1;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             points[i] = Instantiate(datapoint);
         }
     }
@@ -84,8 +84,8 @@ public class oscillator : MonoBehaviour
 
         //visualize
 
-        for (int i = 0; i < 100; i++) {
-            points[i].transform.position = new Vector2(i - 50, globalData[i] * 50);
+        for (int i = 0; i < 500; i++) {
+            points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
         }
         
     }
@@ -107,7 +107,7 @@ public class oscillator : MonoBehaviour
             }
         }
         
-        for (int i = 0; i < 100; i += channels) {
+        for (int i = 0; i < 500; i += channels) {
             globalData[i] = data[i];
 
             if (channels == 2) {
