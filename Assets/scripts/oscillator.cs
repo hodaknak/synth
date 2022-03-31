@@ -6,11 +6,13 @@ public class oscillator : MonoBehaviour
 {
     [SerializeField]
     float freq = 440f;
+    public float currentFreq;
     float increment;
     float phase;
     float samplingFreq = 48000f;
 
-    public int octave;
+    public int currentOctave;
+    public int oldOctave;
 
     [SerializeField]
     float volume = 0.1f;
@@ -27,6 +29,7 @@ public class oscillator : MonoBehaviour
     void Start() {
         points = new GameObject[100];
         globalData = new float[100];
+        currentOctave = 1;
 
         for (int i = 0; i < 100; i++) {
             points[i] = Instantiate(datapoint);
@@ -34,6 +37,7 @@ public class oscillator : MonoBehaviour
     }
     void Update() 
     {
+        currentFreq = freq;
         if(Input.GetKey(KeyCode.Space))
         {
             gain = volume;
@@ -47,19 +51,19 @@ public class oscillator : MonoBehaviour
             freq = 110f;
         } else if (Input.GetKey(KeyCode.S)) {
             gain = volume;
-            freq = 123.5f;
+            freq = 123.47f;
         } else if(Input.GetKey(KeyCode.D)) {
             gain = volume;
-            freq = 130.8f;
+            freq = 130.81f;
         } else if(Input.GetKey(KeyCode.F)) {
             gain = volume;
-            freq = 146.8f;
+            freq = 146.83f;
         }  else if(Input.GetKey(KeyCode.G)) {
             gain = volume;
-            freq = 164.8f;
+            freq = 164.81f;
         } else if(Input.GetKey(KeyCode.H)) {
             gain = volume;
-            freq = 174.6f;
+            freq = 174.61f;
         }  else if(Input.GetKey(KeyCode.J)) {
             gain = volume;
             freq = 196f;
@@ -71,6 +75,14 @@ public class oscillator : MonoBehaviour
             gain = 0f;
         }
 
+        if(Input.GetKeyDown(KeyCode.X)) {
+            currentOctave++;
+        }
+        if(Input.GetKeyDown(KeyCode.Z)) {
+            currentOctave--;
+        }
+        currentFreq = freq * Mathf.Pow(2, currentOctave);
+
         //visualize
 
         for (int i = 0; i < 100; i++) {
@@ -81,7 +93,7 @@ public class oscillator : MonoBehaviour
 
     void OnAudioFilterRead(float[] data, int channels) {
         //test
-        increment = freq * 2f * Mathf.PI / samplingFreq;
+        increment = currentFreq * 2f * Mathf.PI / samplingFreq;
 
         for (int i = 0; i < data.Length; i += channels) {
             phase += increment;
