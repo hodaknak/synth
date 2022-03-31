@@ -101,6 +101,9 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < 500; i++) {
             points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
+            if (globalData[i] > globalData[i + 1] + 50) {
+                //draw line here
+            }
         }
         
     }
@@ -111,7 +114,7 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < data.Length; i += channels) {
             phase += increment;
-            data[i] = gain * Waves.Square(phase);
+            data[i] = gain * Waves.Sin(phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
