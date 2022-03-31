@@ -78,18 +78,12 @@ public class oscillator : MonoBehaviour
         } else if(Input.GetKey(KeyCode.T)) {
             gain = volume;
             freq = 155.56f;
-        }  else if(Input.GetKey(KeyCode.G)) {
+        }  else if(Input.GetKey(KeyCode.U)) {
             gain = volume;
-            freq = 164.81f;
-        } else if(Input.GetKey(KeyCode.H)) {
+            freq = 185f;
+        } else if(Input.GetKey(KeyCode.I)) {
             gain = volume;
-            freq = 174.61f;
-        }  else if(Input.GetKey(KeyCode.J)) {
-            gain = volume;
-            freq = 196f;
-        }  else if(Input.GetKey(KeyCode.K)) {
-            gain = volume;
-            freq = 220f;
+            freq = 207.65f;
         }
         else {
             gain = 0f;
