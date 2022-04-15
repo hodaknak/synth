@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -135,6 +135,11 @@ public class oscillator : MonoBehaviour
         }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
+    }
+
+    //knob events
+    public void onVolumeChange(float value) {
+        Debug.Log(value);
     }
 }
 
