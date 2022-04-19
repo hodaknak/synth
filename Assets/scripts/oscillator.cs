@@ -14,6 +14,9 @@ public class oscillator : MonoBehaviour
     public int currentOctave;
     public int oldOctave;
 
+    bool vibrato;
+  
+
     [SerializeField]
     float volume = 0.1f;
 
@@ -84,6 +87,15 @@ public class oscillator : MonoBehaviour
         } else if(Input.GetKey(KeyCode.I)) {
             gain = volume;
             freq = 207.65f;
+        }  else if(Input.GetKey(KeyCode.L)) {
+            gain = volume;
+            freq = 246.94f; 
+        }  else if(Input.GetKey(KeyCode.O)) {
+            gain = volume;
+            freq = 233.08f;
+        }  else if(Input.GetKey(KeyCode.Semicolon)) {
+            gain = volume;
+            freq = 261.63f;
         }
         else {
             gain = 0f;
@@ -97,23 +109,31 @@ public class oscillator : MonoBehaviour
         }
         currentFreq = freq * Mathf.Pow(2, currentOctave);
 
+       
+
         //visualize
 
         for (int i = 0; i < 500; i++) {
             points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
-            if (globalData[i] > globalData[i + 1] + 50) {
+           // if (globalData[i] > globalData[i + 1] + 50) {
                 //draw line here
-            }
+            //}
         }
         
     }
 
+    
+
     void OnAudioFilterRead(float[] data, int channels) {
         //test
+
+        
+
         increment = currentFreq * 2f * Mathf.PI / samplingFreq;
 
-        for (int i = 0; i < data.Length; i += channels) {
+        for (int i = 0; i < data.Length; i += channels) {  
             phase += increment;
+            
             data[i] = gain * Waves.Sin(phase);
 
             if (channels == 2) {

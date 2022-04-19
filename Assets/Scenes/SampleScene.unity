@@ -240,6 +240,48 @@ MonoBehaviour:
   currentFreq: 0
   currentOctave: 0
   oldOctave: 0
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.5673828
+      value: -0.7810974
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.763916
+      value: 1.1303253
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.9445031
+      value: -1.2211285
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 3.3137655
+      value: 0.9386002
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 0
+    m_PostInfinity: 0
+    m_RotationOrder: 4
   volume: 0.1
   datapoint: {fileID: 7869054450969153313, guid: 5f005a640b8480a4580b41471dd5b3f2, type: 3}
 --- !u!4 &1549713254
