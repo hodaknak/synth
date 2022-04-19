@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,15 +28,17 @@ public class oscillator : MonoBehaviour
     GameObject[] points;
 
     float[] globalData;
+
+    LineRenderer line;
+    Vector3[] linePos;
     
     void Start() {
-        points = new GameObject[500];
-        globalData = new float[500];
-        currentOctave = 1;
+        points = new GameObject[200];
+        globalData = new float[200];
+        linePos = new Vector3[200];
 
-        for (int i = 0; i < 500; i++) {
-            points[i] = Instantiate(datapoint);
-        }
+        currentOctave = 1;
+        line = gameObject.GetComponent<LineRenderer>();
     }
     void Update() 
     {
@@ -112,14 +114,13 @@ public class oscillator : MonoBehaviour
        
 
         //visualize
-
-        for (int i = 0; i < 500; i++) {
-            points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
-           // if (globalData[i] > globalData[i + 1] + 50) {
-                //draw line here
-            //}
+        for (int i = 0; i < 200; i++) {
+         //   points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
+            linePos[i] = new Vector3(i - 100, globalData[i] * 175, 0);
         }
-        
+
+        line.positionCount = 199;
+        line.SetPositions(linePos);
     }
 
     
@@ -133,8 +134,7 @@ public class oscillator : MonoBehaviour
 
         for (int i = 0; i < data.Length; i += channels) {  
             phase += increment;
-            
-            data[i] = gain * Waves.Sin(phase);
+            data[i] = gain * Waves.Triangle (phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
@@ -145,7 +145,7 @@ public class oscillator : MonoBehaviour
             }
         }
         
-        for (int i = 0; i < 500; i += channels) {
+        for (int i = 0; i < 200; i += channels) {
             globalData[i] = data[i];
 
             if (channels == 2) {
@@ -154,6 +154,11 @@ public class oscillator : MonoBehaviour
         }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
+    }
+
+    //knob events
+    public void onVolumeChange(float value) {
+        Debug.Log(value);
     }
 }
 
