@@ -5,6 +5,9 @@ using UnityEngine;
 public class oscillator : MonoBehaviour
 {
     [SerializeField]
+    WAVETYPE type;
+
+    [SerializeField]
     float freq = 440f;
     public float currentFreq;
     float increment;
@@ -31,11 +34,17 @@ public class oscillator : MonoBehaviour
 
     LineRenderer line;
     Vector3[] linePos;
+
+    wave[] waveFunctions;
     
+    delegate float wave(float t);
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
         linePos = new Vector3[200];
+
+        waveFunctions = new wave[] {Waves.Sin, Waves.Square, Waves.Triangle, Waves.Saw};
 
         currentOctave = 1;
         line = gameObject.GetComponent<LineRenderer>();
@@ -125,22 +134,17 @@ public class oscillator : MonoBehaviour
 
         line.positionCount = 199;
         line.SetPositions(linePos);
-
-        
     }
 
     
 
     void OnAudioFilterRead(float[] data, int channels) {
         //test
-
-        
-
         increment = currentFreq * 2f * Mathf.PI / samplingFreq;
 
         for (int i = 0; i < data.Length; i += channels) {  
             phase += increment;
-            data[i] = gain * Waves.Triangle (phase);
+            data[i] = gain * waveFunctions[(int)type](phase);
 
             if (channels == 2) {
                 data[i + 1] = data[i];
@@ -173,6 +177,10 @@ public class oscillator : MonoBehaviour
     //knob events
     public void onVolumeChange(float value) {
         Debug.Log(value);
+    }
+
+    enum WAVETYPE {
+        SIN, SQUARE, TRIANGLE, SAW
     }
 }
 
