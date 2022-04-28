@@ -18,8 +18,6 @@ public class oscillator : MonoBehaviour
     public int currentOctave;
     public int oldOctave;
 
-    public bool vibrato;
-  
 
     [SerializeField]
     float volume = 0.1f;
@@ -118,11 +116,6 @@ public class oscillator : MonoBehaviour
             gain = 0f;
         }
         currentFreq = freq * Mathf.Pow(2, currentOctave);
-
-       if(Input.GetKeyDown(KeyCode.C)) {
-           vibrato = true;
-          // Vibrato();
-       } 
        
 
         //visualize
@@ -165,14 +158,6 @@ public class oscillator : MonoBehaviour
         }
 
         //for harrison: loop through the data[] array, each value is the y value so just graph that
-    }
-
-    public void Vibrato()
-    {
-        Debug.Log("vibrato");
-        while(vibrato == true) {
-            currentFreq = Mathf.Lerp(currentFreq - 2, currentFreq + 2, 1);
-        }
     }
 
     //knob events
