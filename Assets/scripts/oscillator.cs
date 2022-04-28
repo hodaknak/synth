@@ -1,6 +1,7 @@
  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class oscillator : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class oscillator : MonoBehaviour
     
     delegate float wave(float t);
 
+    public GameObject sliddy;
+    Slider slider;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
@@ -48,6 +52,8 @@ public class oscillator : MonoBehaviour
 
         currentOctave = 1;
         line = gameObject.GetComponent<LineRenderer>();
+
+        slider = sliddy.GetComponent<Slider>();
     }
     void Update() 
     {
@@ -111,18 +117,11 @@ public class oscillator : MonoBehaviour
         else {
             gain = 0f;
         }
-
-        if(Input.GetKeyDown(KeyCode.X)) {
-            currentOctave++;
-        }
-        if(Input.GetKeyDown(KeyCode.Z)) {
-            currentOctave--;
-        }
         currentFreq = freq * Mathf.Pow(2, currentOctave);
 
        if(Input.GetKeyDown(KeyCode.C)) {
            vibrato = true;
-           Vibrato();
+          // Vibrato();
        } 
        
 
@@ -134,6 +133,8 @@ public class oscillator : MonoBehaviour
 
         line.positionCount = 199;
         line.SetPositions(linePos);
+        
+        currentOctave = (int)slider.value;
     }
 
     
