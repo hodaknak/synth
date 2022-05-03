@@ -18,6 +18,8 @@ public class oscillator : MonoBehaviour
     public int currentOctave;
     public int oldOctave;
 
+    [SerializeField]
+    List<GameObject> keys;
 
     [SerializeField]
     float volume = 0.1f;
@@ -66,6 +68,8 @@ public class oscillator : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) {
             gain = volume;
             freq = 110f;
+            keys[0].GetComponent<Image>().color = Color.yellow;
+
         } else if (Input.GetKey(KeyCode.S)) {
             gain = volume;
             freq = 123.47f;
@@ -114,6 +118,9 @@ public class oscillator : MonoBehaviour
         }
         else {
             gain = 0f;
+            for (var i = 0; i > 11; i++) {
+                keys[i].GetComponent<Image>().color = Color.white;
+            }
         }
         currentFreq = freq * Mathf.Pow(2, currentOctave);
        
