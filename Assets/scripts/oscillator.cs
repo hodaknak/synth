@@ -148,9 +148,9 @@ public class oscillator : MonoBehaviour
         }
         else {
             gain = 0f;
-            for (var i = 0; i < 19; i++) {
-            keys[i].GetComponent<Image>().color = Color.white;
-        }
+            for (var i = 0; i < keys.Count; i++) {
+                keys[i].GetComponent<Image>().color = Color.white;
+            }
         }
         currentFreq = freq * Mathf.Pow(2, currentOctave);
 
@@ -160,7 +160,6 @@ public class oscillator : MonoBehaviour
 
         //visualize
         for (int i = 0; i < 200; i++) {
-         //   points[i].transform.position = new Vector2(i - 250, globalData[i] * 250);
             linePos[i] = new Vector3(i - 100, globalData[i] * 175, 0);
         }
 
