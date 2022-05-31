@@ -46,6 +46,8 @@ public class oscillator : MonoBehaviour
     public GameObject sliddy;
     Slider slider;
 
+    Envelope env;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
@@ -58,6 +60,8 @@ public class oscillator : MonoBehaviour
         line = gameObject.GetComponent<LineRenderer>();
 
         slider = sliddy.GetComponent<Slider>();
+
+        env = new Envelope(0.4f, 0.3f, 0.7f, 0.2f);
     }
     void Update() 
     {
@@ -67,6 +71,10 @@ public class oscillator : MonoBehaviour
             gain = volume;
         } else {
             gain = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            env.keyPressed();
         }
         
         if (Input.GetKey(KeyCode.A)) {
@@ -152,10 +160,10 @@ public class oscillator : MonoBehaviour
                 keys[i].GetComponent<Image>().color = Color.white;
             }
         }
+
         currentFreq = freq * Mathf.Pow(2, currentOctave);
 
-
-        
+        env.printElapsed(Time.time);
        
 
         //visualize
