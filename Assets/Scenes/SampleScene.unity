@@ -1172,9 +1172,9 @@ MonoBehaviour:
   - {fileID: 1272328104}
   - {fileID: 1812531643}
   - {fileID: 1795500969}
-  volume: 0.3
-  datapoint: {fileID: 7869054450969153313, guid: 5f005a640b8480a4580b41471dd5b3f2, type: 3}
+  volume: 10
   keybools: 
+  useEnv: 0
   sliddy: {fileID: 254160054}
 --- !u!4 &1549713254
 Transform:

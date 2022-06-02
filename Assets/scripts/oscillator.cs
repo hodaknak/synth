@@ -26,9 +26,6 @@ public class oscillator : MonoBehaviour
 
     float gain;
 
-    [SerializeField]
-    GameObject datapoint;
-
     GameObject[] points;
 
     float[] globalData;
@@ -40,6 +37,9 @@ public class oscillator : MonoBehaviour
 
     [SerializeField]
     bool[] keybools;
+
+    [SerializeField]
+    bool useEnv;
     
     delegate float wave(float t);
 
@@ -61,20 +61,16 @@ public class oscillator : MonoBehaviour
 
         slider = sliddy.GetComponent<Slider>();
 
-        env = new Envelope(0.4f, 0.3f, 0.7f, 0.2f);
+        env = new Envelope(0.2f, 0.3f, 0.7f, 5f);
     }
     void Update() 
     {
         currentFreq = freq;
-        if(Input.GetKey(KeyCode.Space))
-        {
-            gain = volume;
-        } else {
-            gain = 0f;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.LeftBracket) || Input.GetKeyDown(KeyCode.RightBracket)) {
             env.keyPressed();
+        } else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.F) || Input.GetKeyUp(KeyCode.G) || Input.GetKeyUp(KeyCode.H) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K) || Input.GetKeyUp(KeyCode.L) || Input.GetKeyUp(KeyCode.Semicolon) || Input.GetKeyUp(KeyCode.Quote) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.R) || Input.GetKeyUp(KeyCode.T) || Input.GetKeyUp(KeyCode.U) || Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.O) || Input.GetKeyUp(KeyCode.LeftBracket) || Input.GetKeyUp(KeyCode.RightBracket)) {
+            env.keyReleased();
         }
         
         if (Input.GetKey(KeyCode.A)) {
@@ -155,16 +151,15 @@ public class oscillator : MonoBehaviour
             keys[18].GetComponent<Image>().color = Color.black;
         }
         else {
-            gain = 0f;
             for (var i = 0; i < keys.Count; i++) {
                 keys[i].GetComponent<Image>().color = Color.white;
             }
         }
 
-        currentFreq = freq * Mathf.Pow(2, currentOctave);
+        gain *= env.getAmp(Time.time);
+        Debug.Log(env.getAmp(Time.time));
 
-        env.printElapsed(Time.time);
-       
+        currentFreq = freq * Mathf.Pow(2, currentOctave);
 
         //visualize
         for (int i = 0; i < 200; i++) {
