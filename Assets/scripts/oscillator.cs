@@ -34,13 +34,7 @@ public class oscillator : MonoBehaviour
     Vector3[] linePos;
 
     wave[] waveFunctions;
-
-    [SerializeField]
-    bool[] keybools;
-
-    [SerializeField]
-    bool useEnv;
-    
+
     delegate float wave(float t);
 
     public GameObject sliddy;
@@ -50,11 +44,12 @@ public class oscillator : MonoBehaviour
 
     KeyCode currentKey;
 
+    public Button triwavebutton;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
         linePos = new Vector3[200];
-        keybools = new bool[18];
 
         waveFunctions = new wave[] {Waves.Sin, Waves.Square, Waves.Triangle, Waves.Saw};
 
@@ -68,6 +63,12 @@ public class oscillator : MonoBehaviour
     void Update() 
     {
         currentFreq = freq;
+        if(Input.GetKey(KeyCode.Space))
+        {
+            gain = volume;
+        } else {
+            gain = 0f;
+        }
 
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.LeftBracket) || Input.GetKeyDown(KeyCode.RightBracket)) {
             if (useEnv)
@@ -161,15 +162,20 @@ public class oscillator : MonoBehaviour
             keys[18].GetComponent<Image>().color = Color.black;
         }
         else {
+            gain = 0f;
             for (var i = 0; i < keys.Count; i++) {
                 keys[i].GetComponent<Image>().color = Color.white;
             }
         }
+        */
 
         if (useEnv)
             gain = volume * env.getAmp(Time.time);
 
         currentFreq = freq * Mathf.Pow(2, currentOctave);
+
+        env.printElapsed(Time.time);
+       
 
         //visualize
         for (int i = 0; i < 200; i++) {
@@ -214,11 +220,16 @@ public class oscillator : MonoBehaviour
 
     //knob events
     public void onVolumeChange(float value) {
-        Debug.Log(value);
+      //  Debug.Log(value);
     }
 
     enum WAVETYPE {
         SIN, SQUARE, TRIANGLE, SAW
+    }
+
+    void TaskOnClick()
+    {
+       // type = 2;
     }
 }
 
