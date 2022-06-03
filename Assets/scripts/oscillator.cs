@@ -38,9 +38,6 @@ public class oscillator : MonoBehaviour
 
     wave[] waveFunctions;
 
-    [SerializeField]
-    bool[] keybools;
-    
     delegate float wave(float t);
 
     public GameObject sliddy;
@@ -48,11 +45,12 @@ public class oscillator : MonoBehaviour
 
     Envelope env;
 
+    public Button triwavebutton;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
         linePos = new Vector3[200];
-        keybools = new bool[18];
 
         waveFunctions = new wave[] {Waves.Sin, Waves.Square, Waves.Triangle, Waves.Saw};
 
@@ -62,15 +60,23 @@ public class oscillator : MonoBehaviour
         slider = sliddy.GetComponent<Slider>();
 
         env = new Envelope(0.4f, 0.3f, 0.7f, 0.2f);
+
+        Button btn = triwavebutton.GetComponent<Button>();
+        btn.onClick.AddListener(TaskOnClick);
     }
     void Update() 
     {
         currentFreq = freq;
-        if(Input.GetKey(KeyCode.Space))
+        for (var i = 0; i < keys.Count; i++)
+        {
+            keys[i].GetComponent<Image>().color = Color.white;
+        }
+        if (Input.GetKey(KeyCode.Space))
         {
             gain = volume;
         } else {
             gain = 0f;
+
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -81,90 +87,102 @@ public class oscillator : MonoBehaviour
             gain = volume;
             freq = 110f;
             keys[0].GetComponent<Image>().color = Color.grey;
-        } else if (Input.GetKey(KeyCode.S)) {
+        }
+        if (Input.GetKey(KeyCode.S)) {
             gain = volume;
             freq = 123.47f;
             keys[1].GetComponent<Image>().color = Color.grey;
-        } else if(Input.GetKey(KeyCode.D)) {
+        }
+        if(Input.GetKey(KeyCode.D)) {
             gain = volume;
             freq = 130.81f;
             keys[2].GetComponent<Image>().color = Color.grey;
-        } else if(Input.GetKey(KeyCode.F)) {
+        }  if(Input.GetKey(KeyCode.F)) {
             gain = volume;
             freq = 146.83f;
             keys[3].GetComponent<Image>().color = Color.grey;
-        }  else if(Input.GetKey(KeyCode.G)) {
+        }   if(Input.GetKey(KeyCode.G)) {
             gain = volume;
             freq = 164.81f;
             keys[4].GetComponent<Image>().color = Color.grey;
-        } else if(Input.GetKey(KeyCode.H)) {
+        }  if(Input.GetKey(KeyCode.H)) {
             gain = volume;
             freq = 174.61f;
             keys[5].GetComponent<Image>().color = Color.grey;
-        }  else if(Input.GetKey(KeyCode.J)) {
+        }   if(Input.GetKey(KeyCode.J)) {
             gain = volume;
             freq = 196f;
             keys[6].GetComponent<Image>().color = Color.grey;
-        }  else if(Input.GetKey(KeyCode.K)) {
+        }   if(Input.GetKey(KeyCode.K)) {
             gain = volume;
             freq = 220f;
             keys[7].GetComponent<Image>().color = Color.grey;
-        } else if (Input.GetKey(KeyCode.L)) {
+        }  if (Input.GetKey(KeyCode.L)) {
             gain = volume;
             freq = 246.94f;
             keys[8].GetComponent<Image>().color = Color.grey;
-        } else if(Input.GetKey(KeyCode.Semicolon)) {
+        }  if(Input.GetKey(KeyCode.Semicolon)) {
             gain = volume;
             freq = 261.63f;
             keys[9].GetComponent<Image>().color = Color.grey;
-        } else if(Input.GetKey(KeyCode.Quote)) {
+        }  if(Input.GetKey(KeyCode.Quote)) {
             gain = volume;
             freq = 293.67f;
             keys[10].GetComponent<Image>().color = Color.grey;
-        }  else if(Input.GetKey(KeyCode.W)) {
+        }   if(Input.GetKey(KeyCode.W)) {
             gain = volume;
             freq = 116.54f;
             keys[11].GetComponent<Image>().color = Color.black;
-        } else if(Input.GetKey(KeyCode.R)) {
+        }  if(Input.GetKey(KeyCode.R)) {
             gain = volume;
             freq = 138.59f;
             keys[12].GetComponent<Image>().color = Color.black;
-        }  else if(Input.GetKey(KeyCode.T)) {
+        }   if(Input.GetKey(KeyCode.T)) {
             gain = volume;
             freq = 155.56f; 
             keys[13].GetComponent<Image>().color = Color.black;
-        }  else if(Input.GetKey(KeyCode.U)) {
+        }   if(Input.GetKey(KeyCode.U)) {
             gain = volume;
             freq = 185.00f;
             keys[14].GetComponent<Image>().color = Color.black;
-        }  else if(Input.GetKey(KeyCode.I)) {
+        }   if(Input.GetKey(KeyCode.I)) {
             gain = volume;
             freq = 207.65f;
             keys[15].GetComponent<Image>().color = Color.black;
-        } else if(Input.GetKey(KeyCode.O)) {
+        }  if(Input.GetKey(KeyCode.O)) {
             gain = volume;
             freq = 233.08f;
             keys[16].GetComponent<Image>().color = Color.black;
-        }else if(Input.GetKey(KeyCode.LeftBracket)) {
+        } if(Input.GetKey(KeyCode.LeftBracket)) {
             gain = volume;
             freq = 277.18f;
             keys[17].GetComponent<Image>().color = Color.black;
-        } else if(Input.GetKey(KeyCode.RightBracket)) {
+        }  if(Input.GetKey(KeyCode.RightBracket)) {
             gain = volume;
             freq = 311.13f;
             keys[18].GetComponent<Image>().color = Color.black;
         }
-        else {
+       
+        /*else {
             gain = 0f;
             for (var i = 0; i < keys.Count; i++) {
                 keys[i].GetComponent<Image>().color = Color.white;
             }
         }
+        */
 
         currentFreq = freq * Mathf.Pow(2, currentOctave);
 
-        env.printElapsed(Time.time);
-       
+      //  env.printElapsed(Time.time);
+
+        
+        /*switch (Input.GetKeyDown(input))
+        {
+            case KeyCode.A:
+                break;
+        }
+        */
+
 
         //visualize
         for (int i = 0; i < 200; i++) {
@@ -209,11 +227,16 @@ public class oscillator : MonoBehaviour
 
     //knob events
     public void onVolumeChange(float value) {
-        Debug.Log(value);
+      //  Debug.Log(value);
     }
 
     enum WAVETYPE {
         SIN, SQUARE, TRIANGLE, SAW
+    }
+
+    void TaskOnClick()
+    {
+       // type = 2;
     }
 }
 
