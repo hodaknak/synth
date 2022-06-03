@@ -863,7 +863,6 @@ GameObject:
   - component: {fileID: 1259548130}
   - component: {fileID: 1259548129}
   - component: {fileID: 1259548128}
-  - component: {fileID: 1259548131}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -985,19 +984,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1259548126}
   m_CullTransparentMesh: 1
---- !u!114 &1259548131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259548126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0ff0e8bbb2ac540bca06541b5ec691, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triwavebutton: {fileID: 0}
 --- !u!1 &1272328104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,9 +1386,9 @@ MonoBehaviour:
   - {fileID: 1812531643}
   - {fileID: 1795500969}
   volume: 0.3
-  datapoint: {fileID: 7869054450969153313, guid: 5f005a640b8480a4580b41471dd5b3f2, type: 3}
+  keybools: 
+  useEnv: 0
   sliddy: {fileID: 254160054}
-  triwavebutton: {fileID: 1259548128}
 --- !u!4 &1549713254
 Transform:
   m_ObjectHideFlags: 0

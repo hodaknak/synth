@@ -37,7 +37,7 @@ public class Envelope
 
 		if (noteOn)
 		{
-			if (deltaTime <= attack)
+			if (deltaTime <= attack && attack != 0f)
 			{
 				// In attack Phase - approach max amplitude
 				amp = (deltaTime / attack);
@@ -57,8 +57,8 @@ public class Envelope
 		}
 		else
 		{
-			// Note has been released, so in release phase
-			amp = ((t - releaseTime) / release) * (0f - sustain) + sustain;
+			if (release != 0)
+				amp = ((t - releaseTime) / release) * (0f - sustain) + sustain;
 		}
 
 		// Amplitude should not be negative
