@@ -23,7 +23,7 @@ public class Envelope
 
     public void keyPressed() {
         startTime = Time.time;
-        noteOn = false;
+        noteOn = true;
     }
 
     public void keyReleased() {
