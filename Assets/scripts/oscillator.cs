@@ -52,6 +52,20 @@ public class oscillator : MonoBehaviour
     public Button sawwavebutton;
     public Button squarewavebutton;
 
+    public float attackvalue;
+    public float decayvalue;
+    public float sustainvalue;
+    public float releasevalue;
+
+    public GameObject attackslider;
+    Slider attacksliddy;
+    public GameObject decayslider;
+    Slider decaysliddy;
+    public GameObject sustainslider;
+    Slider sustainsliddy;
+    public GameObject releaseslider;
+    Slider releasesliddy;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
@@ -64,9 +78,13 @@ public class oscillator : MonoBehaviour
 
         octavesslider = octaveslider.GetComponent<Slider>();
         volumesslider = volumeslider.GetComponent<Slider>();
+        attacksliddy = attackslider.GetComponent<Slider>();
+        decaysliddy = decayslider.GetComponent<Slider>();
+        sustainsliddy = sustainslider.GetComponent<Slider>();
+        releasesliddy = releaseslider.GetComponent<Slider>();
 
-        env = new Envelope(0f, 1f, 0f, 0f);
-        useEnv = false;
+        env = new Envelope(attackvalue, decayvalue, sustainvalue, releasevalue);
+        useEnv = true;
 
         Button btn = triwavebutton.GetComponent<Button>();
         btn.onClick.AddListener(TriOnClick);
@@ -82,6 +100,10 @@ public class oscillator : MonoBehaviour
         currentFreq = freq;
         currentOctave = (int)octavesslider.value;
         volume = volumesslider.value;
+        attackvalue = attacksliddy.value;
+        decayvalue = decaysliddy.value;
+        sustainvalue = sustainsliddy.value;
+        releasevalue = releasesliddy.value;
 
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.LeftBracket) || Input.GetKeyDown(KeyCode.RightBracket)) {
             if (useEnv)
