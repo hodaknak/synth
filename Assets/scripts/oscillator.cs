@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,6 +51,8 @@ public class oscillator : MonoBehaviour
     public Button sinwavebutton;
     public Button sawwavebutton;
     public Button squarewavebutton;
+
+    KeyCode currentKey;
 
     public float attackvalue;
     public float decayvalue;
@@ -124,102 +126,111 @@ public class oscillator : MonoBehaviour
         {
             keys[i].GetComponent<Image>().color = Color.white;
         }
-        gain = 0;
-        if (Input.GetKey(KeyCode.A)) {
-            
+
+        if (Input.GetKeyDown(KeyCode.A)) {
+            currentKey = KeyCode.A;
+
             freq = 110f;
             keys[0].GetComponent<Image>().color = Color.grey;
-            gain = volume;
-        }  if (Input.GetKey(KeyCode.S)) {
-            
+
+            if (useEnv) env.keyPressed();
+            else gain = volume;
+        } else if (Input.GetKeyDown(KeyCode.S)) {
+            currentKey = KeyCode.S;
+
             freq = 123.47f;
             keys[1].GetComponent<Image>().color = Color.grey;
-            gain = volume;
-        }  if(Input.GetKey(KeyCode.D)) {
+
+            if (useEnv) env.keyPressed();
+            else gain = volume;
+        } else if (Input.GetKeyDown(KeyCode.D)) {
             
             freq = 130.81f;
             keys[2].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.F)) {
+        } else if (Input.GetKeyDown(KeyCode.F)) {
             
             freq = 146.83f;
             keys[3].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.G)) {
+        } else if (Input.GetKeyDown(KeyCode.G)) {
             
             freq = 164.81f;
             keys[4].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.H)) {
+        } else if (Input.GetKeyDown(KeyCode.H)) {
             
             freq = 174.61f;
             keys[5].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        }  if(Input.GetKey(KeyCode.J)) {
+        } else if (Input.GetKeyDown(KeyCode.J)) {
             
             freq = 196f;
             keys[6].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.K)) {
+        } else if (Input.GetKeyDown(KeyCode.K)) {
             
             freq = 220f;
             keys[7].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if (Input.GetKey(KeyCode.L)) {
+        } else if (Input.GetKeyDown(KeyCode.L)) {
            
             freq = 246.94f;
             keys[8].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.Semicolon)) {
+        } else if (Input.GetKeyDown(KeyCode.Semicolon)) {
             
             freq = 261.63f;
             keys[9].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        } if(Input.GetKey(KeyCode.Quote)) {
+        } else if (Input.GetKeyDown(KeyCode.Quote)) {
             
             freq = 293.67f;
             keys[10].GetComponent<Image>().color = Color.grey;
             gain = volume;
-        }  if(Input.GetKey(KeyCode.W)) {
+        } else if (Input.GetKeyDown(KeyCode.W)) {
             
             freq = 116.54f;
             keys[11].GetComponent<Image>().color = Color.black;
             gain = volume;
-        } if(Input.GetKey(KeyCode.R)) {
+        } else if (Input.GetKeyDown(KeyCode.R)) {
             
             freq = 138.59f;
             keys[12].GetComponent<Image>().color = Color.black;
             gain = volume;
-        }  if(Input.GetKey(KeyCode.T)) {
+        } else if (Input.GetKeyDown(KeyCode.T)) {
             
             freq = 155.56f; 
             keys[13].GetComponent<Image>().color = Color.black;
             gain = volume;
-        }  if(Input.GetKey(KeyCode.U)) {
+        } else if (Input.GetKeyDown(KeyCode.U)) {
             
             freq = 185.00f;
             keys[14].GetComponent<Image>().color = Color.black;
             gain = volume;
-        } if(Input.GetKey(KeyCode.I)) {
+        } else if (Input.GetKeyDown(KeyCode.I)) {
             
             freq = 207.65f;
             keys[15].GetComponent<Image>().color = Color.black;
             gain = volume;
-        } if(Input.GetKey(KeyCode.O)) {
+        } else if (Input.GetKeyDown(KeyCode.O)) {
            
             freq = 233.08f;
             keys[16].GetComponent<Image>().color = Color.black;
             gain = volume;
-        } if(Input.GetKey(KeyCode.LeftBracket)) {
+        } else if (Input.GetKeyDown(KeyCode.LeftBracket)) {
             
             freq = 277.18f;
             keys[17].GetComponent<Image>().color = Color.black;
             gain = volume;
-        }  if(Input.GetKey(KeyCode.RightBracket)) {
+        } else if (Input.GetKeyDown(KeyCode.RightBracket)) {
             
             freq = 311.13f;
             keys[18].GetComponent<Image>().color = Color.black;
             gain = volume;
+        } else if (Input.GetKeyUp(currentKey)) {
+            if (useEnv) env.keyReleased();
+            else gain = 0;
         }
 
         if (useEnv)
