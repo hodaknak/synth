@@ -43,6 +43,9 @@ public class oscillator : MonoBehaviour
 
     [SerializeField]
     bool useEnv;
+
+    bool useKeyboard;
+    bool usePiano;
     
     delegate float wave(float t);
 
@@ -72,6 +75,12 @@ public class oscillator : MonoBehaviour
 
     [SerializeField]
     Toggle envToggle;
+
+    public Toggle keyboardkeystoggle;
+    public Toggle pianokeystoggle;
+
+    public GameObject Keyboardkeytext;
+    public GameObject Pianokeytext;
 
     void Start() {
         points = new GameObject[200];
@@ -108,6 +117,8 @@ public class oscillator : MonoBehaviour
         releasesliddy.onValueChanged.AddListener(ReleaseOnChange);
         
         envToggle.onValueChanged.AddListener(OnEnvToggled);
+        keyboardkeystoggle.onValueChanged.AddListener(OnKeyboardToggled);
+        pianokeystoggle.onValueChanged.AddListener(OnPianoToggled);
 
         keyImages = new List<Image>();
         
@@ -126,6 +137,7 @@ public class oscillator : MonoBehaviour
         currentFreq = freq;
         currentOctave = (int)octavesslider.value;
         volume = volumesslider.value;
+        
 
         if (Input.GetKeyDown(KeyCode.A)) {
             currentKey = KeyCode.A;
@@ -153,7 +165,7 @@ public class oscillator : MonoBehaviour
             keyImages[2].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.F)) {
             currentKey = KeyCode.F;
             currentKeyIndex = 3;
@@ -162,7 +174,7 @@ public class oscillator : MonoBehaviour
             keyImages[3].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.G)) {
             currentKey = KeyCode.G;
             currentKeyIndex = 4;
@@ -171,7 +183,7 @@ public class oscillator : MonoBehaviour
             keyImages[4].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.H)) {
             currentKey = KeyCode.H;
             currentKeyIndex = 5;
@@ -180,7 +192,7 @@ public class oscillator : MonoBehaviour
             keyImages[5].color = Color.grey;
             
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.J)) {
             currentKey = KeyCode.J;
             currentKeyIndex = 6;
@@ -189,7 +201,7 @@ public class oscillator : MonoBehaviour
             keyImages[6].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.K)) {
             currentKey = KeyCode.K;
             currentKeyIndex = 7;
@@ -198,7 +210,7 @@ public class oscillator : MonoBehaviour
             keyImages[7].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.L)) {
             currentKey = KeyCode.L;
             currentKeyIndex = 8;
@@ -207,7 +219,7 @@ public class oscillator : MonoBehaviour
             keyImages[8].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.Semicolon)) {
             currentKey = KeyCode.Semicolon;
             currentKeyIndex = 9;
@@ -217,7 +229,7 @@ public class oscillator : MonoBehaviour
 
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.Quote)) {
             currentKey = KeyCode.Quote;
             currentKeyIndex = 10;
@@ -226,7 +238,7 @@ public class oscillator : MonoBehaviour
             keyImages[10].color = Color.grey;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.W)) {
             currentKey = KeyCode.W;
             currentKeyIndex = 11;
@@ -235,7 +247,7 @@ public class oscillator : MonoBehaviour
             keyImages[11].color = Color.black;
             
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.R)) {
             currentKey = KeyCode.R;
             currentKeyIndex = 12;
@@ -244,7 +256,7 @@ public class oscillator : MonoBehaviour
             keyImages[12].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.T)) {
             currentKey = KeyCode.T;
             currentKeyIndex = 13;
@@ -253,7 +265,7 @@ public class oscillator : MonoBehaviour
             keyImages[13].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.U)) {
             currentKey = KeyCode.U;
             currentKeyIndex = 14;
@@ -262,7 +274,7 @@ public class oscillator : MonoBehaviour
             keyImages[14].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.I)) {
             currentKey = KeyCode.I;
             currentKeyIndex = 15;
@@ -271,7 +283,7 @@ public class oscillator : MonoBehaviour
             keyImages[15].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.O)) {
             currentKey = KeyCode.O;
             currentKeyIndex = 16;
@@ -280,7 +292,7 @@ public class oscillator : MonoBehaviour
             keyImages[16].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.LeftBracket)) {
             currentKey = KeyCode.LeftBracket;
             currentKeyIndex = 17;
@@ -289,7 +301,7 @@ public class oscillator : MonoBehaviour
             keyImages[17].color = Color.black;
 
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyDown(KeyCode.RightBracket)) {
             currentKey = KeyCode.RightBracket;
             currentKeyIndex = 18;
@@ -298,7 +310,7 @@ public class oscillator : MonoBehaviour
             keyImages[18].color = Color.black;
             
             if (useEnv) env.keyPressed();
-            else gain = volume;;
+            else gain = volume;
         } else if (Input.GetKeyUp(currentKey)) {
             currentKeyIndex = -1;
             
@@ -424,6 +436,22 @@ public class oscillator : MonoBehaviour
     void OnEnvToggled(bool on)
     {
         useEnv = on;
+    }
+    void OnKeyboardToggled(bool on)
+    {
+        Keyboardkeytext.SetActive(on);
+
+        if (on)
+            Pianokeytext.SetActive(false);
+        
+    }
+    void OnPianoToggled(bool on)
+    {
+        Pianokeytext.SetActive(on);
+
+        if (on)
+            Keyboardkeytext.SetActive(false);
+        
     }
 }
 
