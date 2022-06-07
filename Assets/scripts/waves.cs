@@ -13,7 +13,7 @@ public class Waves
     }
 
     public static float Triangle(float t) {
-        return Mathf.PingPong(t, 2) - 1;
+        return Mathf.Asin(Mathf.Sin(t)) * (2.0f / Mathf.PI);
     }
 
     public static float Saw(float t) {

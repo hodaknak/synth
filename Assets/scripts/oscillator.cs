@@ -76,6 +76,11 @@ public class oscillator : MonoBehaviour
     [SerializeField]
     Toggle envToggle;
 
+    [SerializeField]
+    Toggle reverbToggle;
+
+    AudioReverbFilter reverbFilter;
+
     public Toggle keyboardkeystoggle;
     public Toggle pianokeystoggle;
 
@@ -92,6 +97,8 @@ public class oscillator : MonoBehaviour
 
         currentOctave = 1;
         line = gameObject.GetComponent<LineRenderer>();
+
+        reverbFilter = GetComponent<AudioReverbFilter>();
 
         octavesslider = octaveslider.GetComponent<Slider>();
         volumesslider = volumeslider.GetComponent<Slider>();
@@ -121,6 +128,8 @@ public class oscillator : MonoBehaviour
         pianokeystoggle.onValueChanged.AddListener(OnPianoToggled);
         Keyboardkeytext.SetActive(false);
         Pianokeytext.SetActive(false);
+
+        reverbToggle.onValueChanged.AddListener(OnReverbToggle);
 
         keyImages = new List<Image>();
         
@@ -341,8 +350,6 @@ public class oscillator : MonoBehaviour
         
     }
 
-    
-
     void OnAudioFilterRead(float[] data, int channels) {
         //test
         increment = currentFreq * 2f * Mathf.PI / samplingFreq;
@@ -439,21 +446,28 @@ public class oscillator : MonoBehaviour
     {
         useEnv = on;
     }
+
     void OnKeyboardToggled(bool on)
     {
         Keyboardkeytext.SetActive(on);
 
-        if (on)
+        if (on) {
             Pianokeytext.SetActive(false);
-        
+            pianokeystoggle.isOn = false;
+        }
     }
     void OnPianoToggled(bool on)
     {
         Pianokeytext.SetActive(on);
 
-        if (on)
+        if (on) {
             Keyboardkeytext.SetActive(false);
-        
+            keyboardkeystoggle.isOn = false;
+        }
+    }
+
+    void OnReverbToggle(bool on) {
+        reverbFilter.enabled = on;
     }
 }
 
