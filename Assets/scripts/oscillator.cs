@@ -79,7 +79,17 @@ public class oscillator : MonoBehaviour
     [SerializeField]
     Toggle reverbToggle;
 
+    [SerializeField]
+    Slider reverbSlider;
+
+    [SerializeField]
+    Toggle distortionToggle;
+
+    [SerializeField]
+    Slider distortionSlider;
+
     AudioReverbFilter reverbFilter;
+    AudioDistortionFilter distortionFilter;
 
     public Toggle keyboardkeystoggle;
     public Toggle pianokeystoggle;
@@ -99,6 +109,7 @@ public class oscillator : MonoBehaviour
         line = gameObject.GetComponent<LineRenderer>();
 
         reverbFilter = GetComponent<AudioReverbFilter>();
+        distortionFilter = GetComponent<AudioDistortionFilter>();
 
         octavesslider = octaveslider.GetComponent<Slider>();
         volumesslider = volumeslider.GetComponent<Slider>();
@@ -122,6 +133,9 @@ public class oscillator : MonoBehaviour
         decaysliddy.onValueChanged.AddListener(DecayOnChange);
         sustainsliddy.onValueChanged.AddListener(SustainOnChange);
         releasesliddy.onValueChanged.AddListener(ReleaseOnChange);
+
+        reverbSlider.onValueChanged.AddListener(OnReverbChange);
+        distortionSlider.onValueChanged.AddListener(OnDistortionChange);
         
         envToggle.onValueChanged.AddListener(OnEnvToggled);
         keyboardkeystoggle.onValueChanged.AddListener(OnKeyboardToggled);
@@ -130,6 +144,7 @@ public class oscillator : MonoBehaviour
         Pianokeytext.SetActive(false);
 
         reverbToggle.onValueChanged.AddListener(OnReverbToggle);
+        distortionToggle.onValueChanged.AddListener(OnDistortionToggle);
 
         keyImages = new List<Image>();
         
@@ -468,6 +483,18 @@ public class oscillator : MonoBehaviour
 
     void OnReverbToggle(bool on) {
         reverbFilter.enabled = on;
+    }
+
+    void OnReverbChange(float v) {
+        reverbFilter.reverbLevel = v;
+    }
+
+    void OnDistortionToggle(bool on) {
+        distortionFilter.enabled = on;
+    }
+
+    void OnDistortionChange(float v) {
+        distortionFilter.distortionLevel = v;
     }
 }
 
