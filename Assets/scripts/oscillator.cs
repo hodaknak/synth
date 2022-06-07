@@ -21,6 +21,8 @@ public class oscillator : MonoBehaviour
     [SerializeField]
     List<GameObject> keys;
 
+    List<Image> keyImages;
+
     [SerializeField]
     float volume = 0.1f;
 
@@ -31,7 +33,11 @@ public class oscillator : MonoBehaviour
     float[] globalData;
 
     LineRenderer line;
+    [SerializeField]
+    LineRenderer envLine;
+    
     Vector3[] linePos;
+    Vector3[] envPos;
 
     wave[] waveFunctions;
 
@@ -55,11 +61,6 @@ public class oscillator : MonoBehaviour
     KeyCode currentKey;
     int currentKeyIndex;
 
-    public float attackvalue;
-    public float decayvalue;
-    public float sustainvalue;
-    public float releasevalue;
-
     public GameObject attackslider;
     Slider attacksliddy;
     public GameObject decayslider;
@@ -73,6 +74,7 @@ public class oscillator : MonoBehaviour
         points = new GameObject[200];
         globalData = new float[200];
         linePos = new Vector3[200];
+        envPos = new Vector3[5];
 
         waveFunctions = new wave[] {Waves.Sin, Waves.Square, Waves.Triangle, Waves.Saw};
 
@@ -86,8 +88,7 @@ public class oscillator : MonoBehaviour
         sustainsliddy = sustainslider.GetComponent<Slider>();
         releasesliddy = releaseslider.GetComponent<Slider>();
 
-        env = new Envelope(attackvalue, decayvalue, sustainvalue, releasevalue);
-        useEnv = true;
+        env = new Envelope(attacksliddy.value, decaysliddy.value, sustainsliddy.value, releasesliddy.value);
 
         Button btn = triwavebutton.GetComponent<Button>();
         btn.onClick.AddListener(TriOnClick);
@@ -97,23 +98,36 @@ public class oscillator : MonoBehaviour
         btn2.onClick.AddListener(SawOnClick);
         Button btn3 = squarewavebutton.GetComponent<Button>();
         btn3.onClick.AddListener(SquareOnClick);
+        
+        attacksliddy.onValueChanged.AddListener(AttackOnChange);
+        decaysliddy.onValueChanged.AddListener(DecayOnChange);
+        sustainsliddy.onValueChanged.AddListener(SustainOnChange);
+        releasesliddy.onValueChanged.AddListener(ReleaseOnChange);
+
+        keyImages = new List<Image>();
+        
+        for (int i = 0; i < keys.Count; i++)
+        {
+            keyImages.Add(keys[i].GetComponent<Image>());
+        }
+        
+        envLine.positionCount = 5;
+        envPos[0] = new Vector3(125f, -20f, 0f);
+        
+        UpdateGraph();
     }
     void Update() 
     {
         currentFreq = freq;
         currentOctave = (int)octavesslider.value;
         volume = volumesslider.value;
-        attackvalue = attacksliddy.value;
-        decayvalue = decaysliddy.value;
-        sustainvalue = sustainsliddy.value;
-        releasevalue = releasesliddy.value;
 
         if (Input.GetKeyDown(KeyCode.A)) {
             currentKey = KeyCode.A;
             currentKeyIndex = 0;
 
             freq = 110f;
-            keys[0].GetComponent<Image>().color = Color.grey;
+            keyImages[0].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;
@@ -122,7 +136,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 1;
 
             freq = 123.47f;
-            keys[1].GetComponent<Image>().color = Color.grey;
+            keyImages[1].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;
@@ -131,7 +145,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 2;
             
             freq = 130.81f;
-            keys[2].GetComponent<Image>().color = Color.grey;
+            keyImages[2].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -140,7 +154,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 3;
             
             freq = 146.83f;
-            keys[3].GetComponent<Image>().color = Color.grey;
+            keyImages[3].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -149,7 +163,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 4;
             
             freq = 164.81f;
-            keys[4].GetComponent<Image>().color = Color.grey;
+            keyImages[4].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -158,7 +172,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 5;
             
             freq = 174.61f;
-            keys[5].GetComponent<Image>().color = Color.grey;
+            keyImages[5].color = Color.grey;
             
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -167,7 +181,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 6;
             
             freq = 196f;
-            keys[6].GetComponent<Image>().color = Color.grey;
+            keyImages[6].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -176,7 +190,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 7;
             
             freq = 220f;
-            keys[7].GetComponent<Image>().color = Color.grey;
+            keyImages[7].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -185,7 +199,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 8;
            
             freq = 246.94f;
-            keys[8].GetComponent<Image>().color = Color.grey;
+            keyImages[8].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -194,7 +208,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 9;
             
             freq = 261.63f;
-            keys[9].GetComponent<Image>().color = Color.grey;
+            keyImages[9].color = Color.grey;
 
 
             if (useEnv) env.keyPressed();
@@ -204,7 +218,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 10;
             
             freq = 293.67f;
-            keys[10].GetComponent<Image>().color = Color.grey;
+            keyImages[10].color = Color.grey;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -213,7 +227,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 11;
             
             freq = 116.54f;
-            keys[11].GetComponent<Image>().color = Color.black;
+            keyImages[11].color = Color.black;
             
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -222,7 +236,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 12;
             
             freq = 138.59f;
-            keys[12].GetComponent<Image>().color = Color.black;
+            keyImages[12].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -231,7 +245,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 13;
             
             freq = 155.56f; 
-            keys[13].GetComponent<Image>().color = Color.black;
+            keyImages[13].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -240,7 +254,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 14;
             
             freq = 185.00f;
-            keys[14].GetComponent<Image>().color = Color.black;
+            keyImages[14].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -249,7 +263,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 15;
             
             freq = 207.65f;
-            keys[15].GetComponent<Image>().color = Color.black;
+            keyImages[15].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -258,7 +272,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 16;
            
             freq = 233.08f;
-            keys[16].GetComponent<Image>().color = Color.black;
+            keyImages[16].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -267,7 +281,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 17;
             
             freq = 277.18f;
-            keys[17].GetComponent<Image>().color = Color.black;
+            keyImages[17].color = Color.black;
 
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -276,7 +290,7 @@ public class oscillator : MonoBehaviour
             currentKeyIndex = 18;
             
             freq = 311.13f;
-            keys[18].GetComponent<Image>().color = Color.black;
+            keyImages[18].color = Color.black;
             
             if (useEnv) env.keyPressed();
             else gain = volume;;
@@ -287,11 +301,11 @@ public class oscillator : MonoBehaviour
             else gain = 0;
         }
 
-            for (var i = 0; i < keys.Count; i++)
-            {
-                if (i != currentKeyIndex)
-                    keys[i].GetComponent<Image>().color = Color.white;
-            }
+        for (int i = 0; i < keys.Count; i++)
+        {
+            if (i != currentKeyIndex)
+                keyImages[i].color = Color.white;
+        }
 
         if (useEnv)
             gain = volume * env.getAmp(Time.time);
@@ -368,5 +382,38 @@ public class oscillator : MonoBehaviour
 
     }
 
+    void AttackOnChange(float v)
+    {
+        env.attack = v;
+        UpdateGraph();
+    }
+    
+    void DecayOnChange(float v)
+    {
+        env.decay = v;
+        UpdateGraph();
+    }
+    
+    void SustainOnChange(float v)
+    {
+        env.sustain = v;
+        UpdateGraph();
+    }
+    
+    void ReleaseOnChange(float v)
+    {
+        env.release = v;
+        UpdateGraph();
+    }
+
+    void UpdateGraph()
+    {
+        envPos[1] = new Vector3(125 + env.attack * 8.3333f, 0f, 0f);
+        envPos[2] = new Vector3(envPos[1].x + env.decay * 8.3333f, -20 + 20 * env.sustain, 0f);
+        envPos[3] = new Vector3(envPos[2].x + 25, envPos[2].y, 0f);
+        envPos[4] = new Vector3(envPos[3].x + env.release * 8.3333f, -20f, 0f);
+        
+        envLine.SetPositions(envPos);
+    }
 }
 

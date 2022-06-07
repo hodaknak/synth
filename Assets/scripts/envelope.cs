@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Envelope
 {
-    private float attack;
-    private float decay;
-    private float sustain;
-    private float release;
+    public float attack;
+    public float decay;
+    public float sustain;
+    public float release;
 
     float startTime;
     float releaseTime;
