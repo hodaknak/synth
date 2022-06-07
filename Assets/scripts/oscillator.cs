@@ -119,6 +119,8 @@ public class oscillator : MonoBehaviour
         envToggle.onValueChanged.AddListener(OnEnvToggled);
         keyboardkeystoggle.onValueChanged.AddListener(OnKeyboardToggled);
         pianokeystoggle.onValueChanged.AddListener(OnPianoToggled);
+        Keyboardkeytext.SetActive(false);
+        Pianokeytext.SetActive(false);
 
         keyImages = new List<Image>();
         
