@@ -41,15 +41,11 @@ public class Envelope
 			{
 				// In attack Phase - approach max amplitude
 				amp = (deltaTime / attack);
-			}
-
-			if (deltaTime > attack && deltaTime <= (attack + decay))
+			} else if (deltaTime > attack && deltaTime <= (attack + decay))
 			{
 				// In decay phase - reduce to sustained amplitude
 				amp = ((deltaTime - attack) / decay) * (sustain - 1) + 1;
-			}
-
-			if (deltaTime > (attack + decay))
+			} else if (deltaTime > (attack + decay))
 			{
 				// In sustain phase - dont change until note released
 				amp = sustain;

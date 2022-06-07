@@ -70,6 +70,9 @@ public class oscillator : MonoBehaviour
     public GameObject releaseslider;
     Slider releasesliddy;
 
+    [SerializeField]
+    Toggle envToggle;
+
     void Start() {
         points = new GameObject[200];
         globalData = new float[200];
@@ -98,11 +101,13 @@ public class oscillator : MonoBehaviour
         btn2.onClick.AddListener(SawOnClick);
         Button btn3 = squarewavebutton.GetComponent<Button>();
         btn3.onClick.AddListener(SquareOnClick);
-        
+
         attacksliddy.onValueChanged.AddListener(AttackOnChange);
         decaysliddy.onValueChanged.AddListener(DecayOnChange);
         sustainsliddy.onValueChanged.AddListener(SustainOnChange);
         releasesliddy.onValueChanged.AddListener(ReleaseOnChange);
+        
+        envToggle.onValueChanged.AddListener(OnEnvToggled);
 
         keyImages = new List<Image>();
         
@@ -336,7 +341,7 @@ public class oscillator : MonoBehaviour
                 data[i + 1] = data[i];
             }
 
-            if (phase > 2f * Mathf.PI) {
+            if (phase >= 2f * Mathf.PI) {
                 phase = 0;
             }
         }
@@ -414,6 +419,11 @@ public class oscillator : MonoBehaviour
         envPos[4] = new Vector3(envPos[3].x + env.release * 8.3333f, -20f, 0f);
         
         envLine.SetPositions(envPos);
+    }
+
+    void OnEnvToggled(bool on)
+    {
+        useEnv = on;
     }
 }
 
