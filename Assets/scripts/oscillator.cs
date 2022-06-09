@@ -86,8 +86,15 @@ public class oscillator : MonoBehaviour
     [SerializeField]
     Slider distortionSlider;
 
+    [SerializeField]
+    Toggle delayToggle;
+    
+    [SerializeField]
+    Slider delaySlider;
+
     AudioReverbFilter reverbFilter;
     AudioDistortionFilter distortionFilter;
+    AudioEchoFilter delayFilter;
 
     public Toggle keyboardkeystoggle;
     public Toggle pianokeystoggle;
@@ -108,6 +115,7 @@ public class oscillator : MonoBehaviour
 
         reverbFilter = GetComponent<AudioReverbFilter>();
         distortionFilter = GetComponent<AudioDistortionFilter>();
+        delayFilter = GetComponent<AudioEchoFilter>();
 
         octavesslider = octaveslider.GetComponent<Slider>();
         volumesslider = volumeslider.GetComponent<Slider>();
@@ -134,6 +142,7 @@ public class oscillator : MonoBehaviour
 
         reverbSlider.onValueChanged.AddListener(OnReverbChange);
         distortionSlider.onValueChanged.AddListener(OnDistortionChange);
+        delaySlider.onValueChanged.AddListener(OnDelayChange);
         
         envToggle.onValueChanged.AddListener(OnEnvToggled);
         keyboardkeystoggle.onValueChanged.AddListener(OnKeyboardToggled);
@@ -143,6 +152,7 @@ public class oscillator : MonoBehaviour
 
         reverbToggle.onValueChanged.AddListener(OnReverbToggle);
         distortionToggle.onValueChanged.AddListener(OnDistortionToggle);
+        delayToggle.onValueChanged.AddListener(OnDelayToggle);
 
         keyImages = new List<Image>();
         
@@ -493,6 +503,14 @@ public class oscillator : MonoBehaviour
 
     void OnDistortionChange(float v) {
         distortionFilter.distortionLevel = v;
+    }
+
+    void OnDelayToggle(bool on) {
+        delayFilter.enabled = on;
+    }
+
+    void OnDelayChange(float v) {
+        delayFilter.decayRatio = v;
     }
 }
 
