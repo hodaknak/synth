@@ -28,8 +28,6 @@ public class oscillator : MonoBehaviour
 
     float gain;
 
-    GameObject[] points;
-
     float[] globalData;
 
     LineRenderer line;
@@ -98,7 +96,7 @@ public class oscillator : MonoBehaviour
     public GameObject Pianokeytext;
 
     void Start() {
-        points = new GameObject[200];
+        
         globalData = new float[200];
         linePos = new Vector3[200];
         envPos = new Vector3[5];
